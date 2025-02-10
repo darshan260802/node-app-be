@@ -11,13 +11,13 @@ export class Note {
     @Column()
     description: string;
 
-    @Column()
-    isComplete: boolean;
+    @Column({default: false})
+    isComplete?: boolean;
 
     @CreateDateColumn()
     createdAt?: Date;
 
-    @Column()
+    @Column({select: false})
     userId: string;
 
 }

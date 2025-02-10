@@ -15,4 +15,13 @@ export class NotesService {
         });
     }
 
+    async createNote(userId: string, title: string, description: string): Promise<Note> {
+        return await this.noteRepository.save({
+            userId,
+            title,
+            description,
+            isCompleted: false
+        });
+    }
+
 }
