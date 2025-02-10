@@ -17,7 +17,7 @@ import { Note } from './entities/note.identity';
     type: 'postgres',
     host: process.env.DB_HOST,
     port: 5432,
-    username: 'postgres',
+    username: 'postgres.jhkhegktmtzjaehfpkbv',
     password: process.env.DB_PASSWORD,
     database: 'postgres',
     entities: [User, Session, Note],
