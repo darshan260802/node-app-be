@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Session } from 'src/entities/session.identity';
 import { User } from 'src/entities/user.identity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
-    constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+    constructor(@InjectRepository(User) private userRepository: Repository<User>, @InjectRepository(Session) private sessionRepository: Repository<Session>) {}
 
     async createUser(user: User): Promise<User> {
 
@@ -29,6 +30,22 @@ export class AuthService {
         if(!user || user.password !== password) {
             throw new Error('Invalid email or password');
         }
+
+        const existingSession = await this.sessionRepository.findOne({
+            where: {ipToken: ip}
+        })
+        if(existingSession) {
+            await this.sessionRepository.remove(existingSession);
+        }
+        const session = await this.sessionRepository.save({
+            ipToken: ip,
+            userId: user.id,
+            email: email
+        })
+
+        console.log("SESSION", session);
+        
+
         return user;
     }
 }

@@ -7,6 +7,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entities/user.identity';
 import { PublicIpMiddleware } from './middlewares/public-ip/public-ip.middleware';
+import { Session } from './entities/session.identity';
+import { NotesModule } from './notes/notes.module';
 
 // url: "postgresql://postgres:Darshan#260802@db.ytyhbijqjwogkptqffhb.supabase.co:5432/postgres"
 @Module({
@@ -17,15 +19,15 @@ import { PublicIpMiddleware } from './middlewares/public-ip/public-ip.middleware
     username: 'postgres',
     password: process.env.DB_PASSWORD,
     database: 'postgres',
-    entities: [User],
+    entities: [User, Session],
     synchronize: true,
-  })],
+  }), NotesModule],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(PublicIpMiddleware).forRoutes('*');
-    consumer.apply(IdentityMiddleware).exclude('user/*').forRoutes('*');
+    consumer.apply(IdentityMiddleware).exclude('user/*path').forRoutes('*');
   }
 }
