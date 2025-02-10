@@ -9,6 +9,7 @@ import { User } from './entities/user.identity';
 import { PublicIpMiddleware } from './middlewares/public-ip/public-ip.middleware';
 import { Session } from './entities/session.identity';
 import { NotesModule } from './notes/notes.module';
+import { Note } from './entities/note.identity';
 
 // url: "postgresql://postgres:Darshan#260802@db.ytyhbijqjwogkptqffhb.supabase.co:5432/postgres"
 @Module({
@@ -19,7 +20,7 @@ import { NotesModule } from './notes/notes.module';
     username: 'postgres',
     password: process.env.DB_PASSWORD,
     database: 'postgres',
-    entities: [User, Session],
+    entities: [User, Session, Note],
     synchronize: true,
   }), NotesModule],
   controllers: [AppController],

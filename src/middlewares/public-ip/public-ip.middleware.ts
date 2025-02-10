@@ -8,6 +8,10 @@ export class PublicIpMiddleware implements NestMiddleware {
     if(!publicIP) {
       res.status(400).send({error: {message: "Invalid Identity "}});
     }
+    
+    if(!req.body) {
+      req.body = {};
+    }
 
     req.body['CLIENT_PUBLIC_IP'] = publicIP;
     next();
