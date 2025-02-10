@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { NotesService } from '../notes.service';
 
 @Controller('notes')
@@ -11,12 +11,12 @@ export class CreateController {
         const userId = CLIENT_IDENTITY.userId;
 
         if (!title || !description) {
-            throw new Error('Invalid request. Required fields are title, description');
+            throw new HttpException('Invalid request. Required fields are title, description', HttpStatus.BAD_REQUEST);
         }
 
         const note = await this.notesService.createNote(userId, title, description).catch((error) => {
             console.log('Error:', error.message);
-            throw new Error(error.message);
+            throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         });
 
         console.log('Note:', note);

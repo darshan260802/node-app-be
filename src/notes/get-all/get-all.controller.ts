@@ -1,4 +1,4 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { NotesService } from '../notes.service';
 
 @Controller('notes')
@@ -12,7 +12,7 @@ export class GetAllController {
 
     const notes = await this.notesService.getAllNotes(userId).catch((error) => {
       console.log('Error:', error.message);
-      throw new Error(error.message);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     });
 
     console.log('Notes:', notes);

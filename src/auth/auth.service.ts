@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Session } from 'src/entities/session.identity';
 import { User } from 'src/entities/user.identity';
@@ -13,7 +13,7 @@ export class AuthService {
         const userExists = await this.getUserByEmail(user.email);
 
         if (userExists) {
-            throw new Error('User already exists with this email');
+            throw new HttpException('User already exists with this email', HttpStatus.BAD_REQUEST);
         }
 
         return await this.userRepository.save(user);
@@ -28,7 +28,7 @@ export class AuthService {
     async userLogin(email: string, password: string, ip: string): Promise<User | null> {
         const user = await this.getUserByEmail(email);
         if(!user || user.password !== password) {
-            throw new Error('Invalid email or password');
+            throw new HttpException('Invalid email or password', HttpStatus.UNAUTHORIZED);
         }
 
         const existingSession = await this.sessionRepository.findOne({
@@ -47,5 +47,16 @@ export class AuthService {
         
 
         return user;
+    }
+
+    async userLogout(ip: string): Promise<boolean> {
+        const existingSession = await this.sessionRepository.findOne({
+            where: {ipToken: ip}
+        })
+        if(existingSession) {
+            await this.sessionRepository.remove(existingSession);
+            return true;
+        }
+        return false;
     }
 }
