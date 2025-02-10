@@ -5,6 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { IdentityMiddleware } from './identity/identity.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { User } from './entities/user.identity';
+import { PublicIpMiddleware } from './public-ip/public-ip.middleware';
 
 // url: "postgresql://postgres:Darshan#260802@db.ytyhbijqjwogkptqffhb.supabase.co:5432/postgres"
 @Module({
@@ -15,7 +17,7 @@ import { ConfigModule } from '@nestjs/config';
     username: 'postgres',
     password: process.env.DB_PASSWORD,
     database: 'postgres',
-    entities: [],
+    entities: [User],
     synchronize: true,
   })],
   controllers: [AppController],
@@ -23,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
 })
 export class AppModule implements NestModule{
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(IdentityMiddleware).forRoutes('*');
+    consumer.apply(PublicIpMiddleware).forRoutes('*');
+    consumer.apply(IdentityMiddleware).exclude('user/*').forRoutes('*');
   }
 }
