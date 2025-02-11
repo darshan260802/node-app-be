@@ -23,7 +23,8 @@ export class IdentityMiddleware implements NestMiddleware {
 
     req.body['CLIENT_IDENTITY'] = session;
 
-    console.log('Identity Middleware: ', ip);
+
+    console.log('Identity Middleware: ', ip, session);
     next();
   }
 }

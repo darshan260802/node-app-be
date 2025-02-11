@@ -6,6 +6,8 @@ export class PublicIpMiddleware implements NestMiddleware {
     // const publicIP = "122.170.24.97";
     const publicIP = (""+req.headers['x-forwarded-for'] || '').split(',')[0];
 
+    console.log('DUMP: ->', req.headers['x-forwarded-for'], publicIP);
+    
     if(!publicIP || publicIP === 'undefined') {
       throw new HttpException('Invalid Identity', HttpStatus.UNAUTHORIZED);
     }
