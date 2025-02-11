@@ -19,11 +19,10 @@ export class CreateController {
             throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
         });
 
-        console.log('Note:', note);
+
 
         return {
             message: 'Note created',
-            note,
         };
 
     }

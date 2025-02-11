@@ -11,9 +11,6 @@ export class Note {
     @Column()
     description: string;
 
-    @Column({default: false})
-    isComplete?: boolean;
-
     @CreateDateColumn()
     createdAt?: Date;
 

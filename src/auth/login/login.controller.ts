@@ -19,7 +19,6 @@ export class LoginController {
 
         return {
             message: 'User logged in',
-            user
         };
     }
 

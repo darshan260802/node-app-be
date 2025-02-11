@@ -20,11 +20,10 @@ export class NotesService {
             userId,
             title,
             description,
-            isCompleted: false
         });
     }
 
-    async updateNote(userId: string, noteId: string, title: string, description: string, isComplete: boolean): Promise<boolean> {
+    async updateNote(userId: string, noteId: string, title: string, description: string): Promise<boolean> {
         const note = await this.noteRepository.findOne({
             where: {id: noteId, userId}
         });
@@ -36,7 +35,6 @@ export class NotesService {
         await this.noteRepository.update(noteId, {
             title,
             description,
-            isComplete
         });
 
         return true;

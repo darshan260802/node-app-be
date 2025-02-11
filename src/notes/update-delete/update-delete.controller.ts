@@ -7,14 +7,14 @@ export class UpdateDeleteController {
 
     @Post('update')
     async updateNote(@Body() body: any): Promise<any> {
-        const { CLIENT_IDENTITY, noteId, title, description, isComplete } = body;
+        const { CLIENT_IDENTITY, noteId, title, description } = body;
         const userId = CLIENT_IDENTITY.userId;
 
         if (!noteId) {
             throw new HttpException('Invalid request. Required fields are noteId', HttpStatus.BAD_REQUEST);
         }
 
-        const note = await this.notesService.updateNote(userId, noteId, title, description, isComplete).catch((error) => {
+        const note = await this.notesService.updateNote(userId, noteId, title, description).catch((error) => {
             console.log('Error:', error.message);
             throw new HttpException(error.message , HttpStatus.BAD_REQUEST);
         });
