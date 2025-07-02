@@ -34,7 +34,7 @@ export class GetAllController {
     });
 
     return {
-      message: 'Note Found',
+      message: note ?  'Note Found' : 'Note not found',
       note,
     };
   }
