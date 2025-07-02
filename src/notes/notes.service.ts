@@ -16,7 +16,7 @@ export class NotesService {
     }
 
     async getNote(userId: string, noteId: string): Promise<Note[]> {
-        return await this.noteRepository.find({
+        return await this.noteRepository.findOne({
             where: {userId, id: noteId}
         });
     }
