@@ -22,4 +22,21 @@ export class GetAllController {
       notes,
     };
   }
+
+  @Get('get')
+  async getNote(@Body() body: any): Promise<any> {
+    const { CLIENT_IDENTITY, noteId } = body;
+    const userId = CLIENT_IDENTITY.userId;
+
+    const note = await this.notesService.getNote(userId, noteId).catch((error) => {
+      console.log('Error:', error.message);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    });
+
+    return {
+      message: 'Note Found',
+      note,
+    };
+  }
+
 }

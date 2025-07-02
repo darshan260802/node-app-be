@@ -15,6 +15,12 @@ export class NotesService {
         });
     }
 
+    async getNote(userId: string, noteId: string): Promise<Note[]> {
+        return await this.noteRepository.find({
+            where: {userId, id: noteId}
+        });
+    }
+
     async createNote(userId: string, title: string, description: string): Promise<Note> {
         return await this.noteRepository.save({
             userId,
